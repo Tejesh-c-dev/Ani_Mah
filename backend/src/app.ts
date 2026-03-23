@@ -16,11 +16,25 @@ const PORT = process.env.PORT || 3000;
 
 // Global middleware
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://ani-mah-1.vercel.app"
-  ],
+  origin: (origin, callback) => {
+    // allow requests with no origin (Postman, mobile apps)
+    if (!origin) return callback(null, true);
+
+    // allow localhost
+    if (
+      origin.includes("localhost") ||
+      origin.includes("127.0.0.1")
+    ) {
+      return callback(null, true);
+    }
+
+    // allow ALL vercel deployments
+    if (origin.endsWith(".vercel.app")) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("CORS blocked"));
+  },
   credentials: true
 }));
 app.use(express.json());
