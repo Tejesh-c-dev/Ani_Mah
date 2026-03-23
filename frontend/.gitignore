@@ -1,0 +1,48 @@
+# 🔐 Environment variables (CRITICAL)
+.env
+.env.*
+!.env.example
+
+# 📦 Dependencies
+node_modules/
+.bun/
+
+# 🏗️ Build outputs
+dist/
+dist-ssr/
+build/
+.next/
+out/
+
+# 🧪 Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ⚙️ Cache
+.cache/
+.tmp/
+*.tsbuildinfo
+
+# 🖥️ OS files
+.DS_Store
+Thumbs.db
+
+# 🧠 IDE / Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 🐳 Misc
+coverage/
+.vercel/
+.railway/
