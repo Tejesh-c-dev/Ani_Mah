@@ -7,32 +7,22 @@ import titleRoutes from "./routes/title.routes";
 import reviewRoutes from "./routes/review.routes";
 import { errorHandler } from "./middleware/errorHandler";
 import { sanitizeInputMiddleware } from "./middleware/sanitize";
-import { corsOrigins, validateEnv } from "./utils/env";
+import { validateEnv } from "./utils/env";
 
 validateEnv();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const corsOptions: cors.CorsOptions = {
-  credentials: true,
-  origin: (origin, callback) => {
-    if (!origin) {
-      callback(null, true);
-      return;
-    }
-
-    if (corsOrigins.length === 0 || corsOrigins.includes(origin)) {
-      callback(null, true);
-      return;
-    }
-
-    callback(new Error("Not allowed by CORS"));
-  },
-};
-
 // Global middleware
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://ani-mah-1.vercel.app"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(sanitizeInputMiddleware);
 
