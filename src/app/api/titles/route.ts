@@ -18,8 +18,12 @@ export async function GET(request: NextRequest) {
     if (error instanceof AppError) {
       return NextResponse.json(errorResponse(error.message), { status: error.statusCode });
     }
-    console.error("Get titles error:", error);
-    return NextResponse.json(errorResponse("Internal server error"), { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Get titles error:", errorMessage, error);
+    return NextResponse.json(
+      errorResponse(`Failed to fetch titles: ${errorMessage}`),
+      { status: 500 }
+    );
   }
 }
 
@@ -79,7 +83,11 @@ export async function POST(request: NextRequest) {
     if (error instanceof AppError) {
       return NextResponse.json(errorResponse(error.message), { status: error.statusCode });
     }
-    console.error("Create title error:", error);
-    return NextResponse.json(errorResponse("Internal server error"), { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Create title error:", errorMessage, error);
+    return NextResponse.json(
+      errorResponse(`Failed to create title: ${errorMessage}`),
+      { status: 500 }
+    );
   }
 }

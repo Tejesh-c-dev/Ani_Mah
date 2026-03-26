@@ -13,7 +13,11 @@ export async function POST(request: NextRequest) {
     if (error instanceof AppError) {
       return NextResponse.json(errorResponse(error.message), { status: error.statusCode });
     }
-    console.error("Login error:", error);
-    return NextResponse.json(errorResponse("Internal server error"), { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Login error:", errorMessage, error);
+    return NextResponse.json(
+      errorResponse(`Login failed: ${errorMessage}`),
+      { status: 500 }
+    );
   }
 }
